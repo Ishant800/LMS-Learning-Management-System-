@@ -3,16 +3,17 @@ package com.example.product_service.Dto;
 import com.example.product_service.entity.enums.Role;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UserResponseDto {
     private String tenantId;
     private String username;
-    private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -22,3 +23,4 @@ public class UserDto {
     private String phone;
     private String profilePictureUrl;
 }
+

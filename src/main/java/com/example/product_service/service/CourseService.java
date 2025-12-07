@@ -35,7 +35,6 @@ public class CourseService {
         course.setDescription(dto.getDescription());
         course.setDurationMonths(dto.getDurationsMonths());
 
-
         //add subjects
         if(dto.getSubjects() != null){
             for(SubjectRequest sr: dto.getSubjects()){
@@ -47,8 +46,6 @@ public class CourseService {
                 subject.setCourse(course);
 
                 course.getSubjects().add(subject);
-
-
             }
         }
         return courseRepo.save(course);

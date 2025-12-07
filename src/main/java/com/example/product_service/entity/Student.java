@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "students")
@@ -24,8 +26,7 @@ public class Student {
     @Column(nullable = false)
     private String tenantId;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(mappedBy = "student")
     private User user;
 
     @Column(unique = true)
@@ -40,8 +41,13 @@ public class Student {
     private String guardianName;
     private String guardianPhone;
 
-    private LocalDate admissionDate;
-
+    @Column(updatable = false)
+    private LocalDateTime admissionDate;
     private Boolean active = true;
+
+    @PrePersist
+    public void onCreate(){
+         admissionDate = LocalDateTime.now();
+    }
 }
 
