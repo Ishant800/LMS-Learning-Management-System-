@@ -1,6 +1,8 @@
 package com.example.product_service.service;
 
 import com.example.product_service.Dto.UserDto;
+import com.example.product_service.Dto.UserLoginDto;
+import com.example.product_service.Dto.UserResponseDto;
 import com.example.product_service.entity.Tenant;
 import com.example.product_service.entity.User;
 import com.example.product_service.repository.TenantRepository;
@@ -20,28 +22,42 @@ public class UserService {
         this.tenantRepository = tenantRepository;
     }
 
-    public UserDto createUser(UserDto dto){
-        Tenant tenant = tenantRepository.findById(dto.getTenantId()).orElseThrow(()-> new RuntimeException("tenant not found please register your business!"));
+    public UserResponseDto createUser(UserDto dto){
+        Tenant tenant = tenantRepository.findById(dto.getTenantId()).orElseThrow(()-> new RuntimeException("tenant not found please contact your organization!"));
+
         User user = new User();
-        user.setTenant(null);
+        user.setTenant(tenant);
         user.setFullName(dto.getFullName());
         user.setEmail(dto.getEmail());
         user.setPassword(encoder.encode(dto.getPassword()));
         user.setPhone(dto.getPhone());
         user.setRole(dto.getRole());
         user.setUsername(dto.getUsername());
+        user.setProfilePictureUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3LALal1UCNSOdzUpct6GKzQVj87E8M3UXNbWQ7183DwgETpkMzHkbI44&s");
 
       User saveduser =  userRepository.save(user);
-      UserDto userdto = new UserDto();
-      userdto.setUsername(saveduser.getUsername());
-      userdto.setRole(saveduser.getRole());
-      userdto.setPhone(saveduser.getPhone());
-      userdto.setFullName(saveduser.getFullName());
-      userdto.setTenantId(null);
-      userdto.setEmail(saveduser.getEmail());
+      UserResponseDto userdata = new UserResponseDto();
+      userdata.setUsername(saveduser.getUsername());
+      userdata.setRole(saveduser.getRole());
+      userdata.setPhone(saveduser.getPhone());
+      userdata.setFullName(saveduser.getFullName());
+      userdata.setTenantId(tenant.getId());
+      userdata.setProfilePictureUrl(saveduser.getProfilePictureUrl());
+      userdata.setEmail(saveduser.getEmail());
 
-      return userdto;
+      return userdata;
+    }
 
+
+    public String userLogin(UserLoginDto dto){
+        User user = userRepository.findByEmail(dto.getEmail());
+        if(user == null) return "user not found";
+
+        if(!encoder.matches(dto.getPassword(),user.getPassword())){
+            return "password is invalid!";
+        }
+
+        return "Login successfully";
     }
 
 }

@@ -1,5 +1,7 @@
 package com.example.product_service.service;
 
+import com.example.product_service.Dto.TenantLoginDto;
+import com.example.product_service.exception.UserNotFoundException;
 import com.example.product_service.repository.TenantRepository;
 import com.example.product_service.entity.Tenant;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,6 +37,16 @@ public class TenantService {
         return tenantRepository.save(tenants);
     }
 
+
+    public String tenantLogin(TenantLoginDto dto){
+        Tenant tenant = tenantRepository.findByEmail(dto.getAdminEmail());
+        if(tenant == null) throw new UserNotFoundException("Email not matched!");
+        if(!encoder.matches(dto.getAdminPassword(), tenant.getAdminPassword())){
+            throw new UserNotFoundException("Invalid password!");
+        }
+
+        return "user login successfully ";
+    }
 
 }
 
