@@ -39,7 +39,7 @@ public class TenantService {
 
 
     public String tenantLogin(TenantLoginDto dto){
-        Tenant tenant = tenantRepository.findByEmail(dto.getAdminEmail());
+        Tenant tenant = tenantRepository.findByAdminEmail(dto.getAdminEmail());
         if(tenant == null) throw new UserNotFoundException("Email not matched!");
         if(!encoder.matches(dto.getAdminPassword(), tenant.getAdminPassword())){
             throw new UserNotFoundException("Invalid password!");

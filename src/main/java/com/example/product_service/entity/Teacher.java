@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -27,6 +29,9 @@ public class Teacher {
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
+    private List<Subject> subjects = new ArrayList<>();
 
     private String qualification;
     private Integer experienceYears;

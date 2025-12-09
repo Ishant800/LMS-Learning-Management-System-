@@ -30,7 +30,7 @@ public class Course {
     private Tenant tenant;
 
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<Subject> subjects = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
