@@ -58,7 +58,7 @@ public class User {
     private LocalDateTime updatedAt;
 
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user")
     private Student student;
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)

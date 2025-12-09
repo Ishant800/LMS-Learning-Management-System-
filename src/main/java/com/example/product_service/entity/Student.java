@@ -10,6 +10,8 @@ import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "students")
@@ -26,7 +28,8 @@ public class Student {
     @Column(nullable = false)
     private String tenantId;
 
-    @OneToOne(mappedBy = "student")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
     @Column(unique = true)
@@ -36,7 +39,6 @@ public class Student {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
     private String address;
     private String guardianName;
     private String guardianPhone;
@@ -44,6 +46,9 @@ public class Student {
     @Column(updatable = false)
     private LocalDateTime admissionDate;
     private Boolean active = true;
+
+    @OneToMany(mappedBy = "student")
+    private List<Attendance> attendances = new ArrayList<>();
 
     @PrePersist
     public void onCreate(){

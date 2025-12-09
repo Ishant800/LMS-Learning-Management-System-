@@ -23,7 +23,7 @@ public class Batch {
    @JoinColumn(name = "tenant_id",nullable = false)
     private Tenant tenant;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id",nullable = false)
     private Course course;
 
