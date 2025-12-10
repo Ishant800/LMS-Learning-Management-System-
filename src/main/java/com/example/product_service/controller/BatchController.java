@@ -1,7 +1,6 @@
 package com.example.product_service.controller;
 
 import com.example.product_service.Dto.BatchDto;
-import com.example.product_service.Dto.BatchResponse;
 import com.example.product_service.entity.Batch;
 import com.example.product_service.service.BatchService;
 import org.springframework.http.ResponseEntity;

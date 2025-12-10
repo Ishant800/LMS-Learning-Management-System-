@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "batches")
@@ -23,7 +25,7 @@ public class Batch {
    @JoinColumn(name = "tenant_id",nullable = false)
     private Tenant tenant;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id",nullable = false)
     private Course course;
 

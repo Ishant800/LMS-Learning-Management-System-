@@ -17,7 +17,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @PostMapping("/addcourse")
+    @PostMapping("/addCourse")
     public ResponseEntity<Course> createCourse(@RequestBody CourseDto dto){
         return ResponseEntity.ok(courseService.createCourseWithoutSubject(dto));
     }
