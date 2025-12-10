@@ -50,7 +50,7 @@ public class Course {
 
     private Double courseFee;
 
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Batch> batches = new ArrayList<>();
 
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)

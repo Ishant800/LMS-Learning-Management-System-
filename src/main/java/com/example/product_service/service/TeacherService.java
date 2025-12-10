@@ -28,7 +28,7 @@ public class TeacherService {
     }
 
     public Teacher createTeacher(TeacherDto dto){
-       Tenant tenant = tenantRepository.findById(dto.getTenantId()).orElseThrow(()-> new RuntimeException("Organization not found"));
+       Tenant tenant = tenantRepository.findById(dto.getTenantId()).orElseThrow(()-> new UserNotFoundException("Organization not found"));
        User user = userRepository.findById(dto.getUserId()).orElseThrow(()-> new RuntimeException("user not found! please register first!"));
         Teacher teacher = new Teacher();
 

@@ -5,6 +5,8 @@ import com.example.product_service.Dto.SubjectRequest;
 import com.example.product_service.entity.Course;
 import com.example.product_service.entity.Subject;
 import com.example.product_service.entity.Teacher;
+import com.example.product_service.entity.Tenant;
+import com.example.product_service.exception.UserNotFoundException;
 import com.example.product_service.repository.CourseRepo;
 import com.example.product_service.repository.SubjectRepo;
 import com.example.product_service.repository.TeacherRepository;
@@ -28,8 +30,9 @@ public class CourseService {
     }
 
     public Course createCourseWithoutSubject(CourseDto dto){
+        Tenant tenant = tenantRepository.findById(dto.getTenantId()).orElseThrow(()-> new UserNotFoundException("Tenant not found"));
         Course course = new Course();
-        course.setTenant(null);
+        course.setTenant(tenant);
         course.setCourseName(dto.getCourseName());
         course.setCourseCode(dto.getCourseCode());
         course.setDescription(dto.getDescription());
