@@ -20,6 +20,11 @@ public class TenantController {
         return ResponseEntity.ok(service.createTenant(tenant));
     }
 
+    @DeleteMapping
+    public ResponseEntity<String> deleteTenant(@RequestParam String id){
+       return ResponseEntity.ok(service.tenantDelete(id));
+    }
+
 
 
 }

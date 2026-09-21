@@ -2,24 +2,28 @@ package com.example.product_service.service;
 
 import com.example.product_service.Dto.TenantLoginDto;
 import com.example.product_service.exception.UserNotFoundException;
+import com.example.product_service.rabbitmq.MessageProducer;
 import com.example.product_service.repository.TenantRepository;
 import com.example.product_service.entity.Tenant;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
 public class TenantService {
-
+    private final MessageProducer messageProducer;
     private final TenantRepository tenantRepository;
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public TenantService(TenantRepository tenantRepository){
+    public TenantService(MessageProducer messageProducer, TenantRepository tenantRepository){
+        this.messageProducer = messageProducer;
         this.tenantRepository = tenantRepository;
     }
 
+    @Transactional
     public Tenant createTenant(Tenant tenant){
         //Tenant UUID
         String tenantId = UUID.randomUUID().toString();
@@ -34,7 +38,9 @@ public class TenantService {
         tenants.setAddress(tenant.getAddress());
         tenants.setContactPhone(tenant.getContactPhone());
         tenants.setContactEmail(tenant.getContactEmail());
-        return tenantRepository.save(tenants);
+        Tenant savedTenant = tenantRepository.save(tenants);
+//        messageProducer.(savedTenant);
+        return savedTenant;
     }
 
 
@@ -46,6 +52,14 @@ public class TenantService {
         }
 
         return "user login successfully ";
+    }
+
+    public String tenantDelete(String id){
+        if(tenantRepository.existsById(id)){
+            tenantRepository.deleteById(id);
+
+        }
+        return "deleted sucessfully";
     }
 
 }

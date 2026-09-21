@@ -22,6 +22,17 @@ public class EmailSender {
 
         javaMailSender.send(message);
     }
+    public void sendNotificationToTenantAboutUser(String toEmail){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("ishantkarmacharya@gmail.com");
+        message.setTo(toEmail);
+        message.setSubject("Users account create in your organization.");
+        String text = "Someone register in your organization" +
+                "We are requested to update your business in CRUD24. " + "Thank you choosing us!";
+        message.setText(text);
+
+        javaMailSender.send(message);
+    }
 
     public void sendTenantIdToUser(String toEmail,String TenantId){
         SimpleMailMessage message = new SimpleMailMessage();

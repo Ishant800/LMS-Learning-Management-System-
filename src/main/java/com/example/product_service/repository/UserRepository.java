@@ -4,8 +4,13 @@ import com.example.product_service.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
-    User findByEmail(String email);
+//    @Override
+//    Optional<User> findById(Long aLong);
+
+    Optional<User> findByEmail(String email);
 }

@@ -5,10 +5,17 @@ import com.example.product_service.Dto.UserLoginDto;
 import com.example.product_service.Dto.UserResponseDto;
 import com.example.product_service.entity.Tenant;
 import com.example.product_service.entity.User;
+
+import com.example.product_service.exception.UserNotFoundException;
+import com.example.product_service.rabbitmq.MessageProducer;
 import com.example.product_service.repository.TenantRepository;
 import com.example.product_service.repository.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+
+import java.util.List;
 
 
 @Service
@@ -17,9 +24,11 @@ public class UserService {
     private final TenantRepository tenantRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public UserService(UserRepository userRepository, TenantRepository tenantRepository) {
+    private final MessageProducer producer;
+    public UserService(UserRepository userRepository, TenantRepository tenantRepository, MessageProducer producer) {
         this.userRepository = userRepository;
         this.tenantRepository = tenantRepository;
+        this.producer = producer;
     }
 
     public UserResponseDto createUser(UserDto dto){
@@ -45,19 +54,37 @@ public class UserService {
       userdata.setProfilePictureUrl(saveduser.getProfilePictureUrl());
       userdata.setEmail(saveduser.getEmail());
 
+      producer.sendNotification(tenant);
+      producer.sendRegistrationEmail(saveduser);
       return userdata;
     }
 
 
+
     public String userLogin(UserLoginDto dto){
-        User user = userRepository.findByEmail(dto.getEmail());
+        User user = userRepository.findByEmail(dto.getEmail())
+                .orElseThrow(()-> new UserNotFoundException("user not found"));
         if(user == null) return "user not found";
 
         if(!encoder.matches(dto.getPassword(),user.getPassword())){
             return "password is invalid!";
         }
 
+
+
         return "Login successfully";
     }
+
+
+    public User getUser(String email){
+        return userRepository.findByEmail(email)
+                .orElseThrow(()-> new UsernameNotFoundException("Users not found"));
+    }
+
+    public List<User> getUsers(){
+        return userRepository.findAll();
+    }
+
+
 
 }
