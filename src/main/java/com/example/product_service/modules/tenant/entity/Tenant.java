@@ -42,6 +42,7 @@ public class Tenant {
     private String contactPhone;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean active = true;
 
     @Column(name = "subscription_plan")
@@ -57,9 +58,11 @@ public class Tenant {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "tenant",cascade = CascadeType.ALL)
+    @Builder.Default
     private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "tenant",cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Course> courses = new ArrayList<>();
 
     @PrePersist

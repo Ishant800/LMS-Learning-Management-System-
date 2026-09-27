@@ -150,7 +150,7 @@ Complete API documentation with sample JSON data for testing all endpoints.
     },
     {
       "subjectName": "Database Management",
-      "teacherId": 2
+      "teacherId": 1
     },
     {
       "subjectName": "Web Development",

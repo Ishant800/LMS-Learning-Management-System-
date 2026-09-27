@@ -4,6 +4,7 @@ package com.example.product_service.modules.course.entity;
 import com.example.product_service.modules.batch.entity.Batch;
 import com.example.product_service.modules.student.entity.Enrollment;
 import com.example.product_service.modules.tenant.entity.Tenant;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,10 +31,11 @@ public class Course {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_id",nullable = false)
+    @JsonIgnoreProperties({"adminPassword","createdAt","updatedAt","subscriptionPlan"})
     private Tenant tenant;
 
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL,orphanRemoval = true)
-//    @JsonManagedReference
+   @JsonIgnoreProperties("course")
     private List<Subject> subjects = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
@@ -54,9 +56,11 @@ public class Course {
     private Double courseFee;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("course")
     private List<Batch> batches = new ArrayList<>();
 
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("course")
     private List<Enrollment> enrollments = new ArrayList<>();
 
     @Column(name = "created_at",nullable = false,updatable = false)

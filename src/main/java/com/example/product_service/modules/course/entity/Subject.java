@@ -3,6 +3,7 @@ package com.example.product_service.modules.course.entity;
 
 import com.example.product_service.modules.attendance.entity.Attendance;
 import com.example.product_service.modules.teacher.entity.Teacher;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,14 +26,16 @@ public class Subject {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "course_id")
-//    @JsonBackReference
+   @JsonIgnoreProperties({"subjects","batches","enrollments","tenant"})
     private Course course;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "teacher_id")
+    @JsonIgnoreProperties("subjects")
     private Teacher teacher;
 
     @OneToMany(mappedBy = "subjects")
+    @JsonIgnoreProperties("subjects")
     private List<Attendance> attendances = new ArrayList<>();
 
     private String subjectName;
