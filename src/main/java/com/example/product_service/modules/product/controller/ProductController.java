@@ -1,33 +1,59 @@
 package com.example.product_service.modules.product.controller;
 
 
-import com.example.product_service.modules.product.entity.Product;
+import com.example.product_service.modules.product.dto.ProductRequestDto;
+import com.example.product_service.modules.product.dto.ProductResponseDto;
 import com.example.product_service.modules.product.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/createProduct")
-    public ResponseEntity<Product> saveProduct(@RequestBody Product product){
-        return ResponseEntity.ok(productService.createProduct(product));
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProductResponseDto> createProduct(@Valid @RequestBody ProductRequestDto requestDto){
+        ProductResponseDto response = productService.createProduct(requestDto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProductResponseDto> updateProduct(
+            @PathVariable Long id, 
+            @Valid @RequestBody ProductRequestDto requestDto){
+        ProductResponseDto response = productService.updateProduct(id, requestDto);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id){
-        return ResponseEntity.ok(productService.getProductById(id));
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT')")
+    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id){
+        ProductResponseDto response = productService.getProductById(id);
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProduct(){
-        return ResponseEntity.ok(productService.getAllProduct());
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT')")
+    public ResponseEntity<List<ProductResponseDto>> getAllProducts(){
+        List<ProductResponseDto> products = productService.getAllProduct();
+        return ResponseEntity.ok(products);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
 }
