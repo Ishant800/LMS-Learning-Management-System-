@@ -48,6 +48,10 @@ public class StudentService {
         return studentRepo.findAll();
     }
 
+    public Student getStudentById(Long id){
+        return studentRepo.findById(id)
+                .orElseThrow(()-> new UserNotFoundException("Student not found with id: " + id));
+    }
 
 //    public Student updateStudent(StudentDto dto){
 //        tenantRepository.findById(dto.getTenantId()).orElseThrow(()-> new UserNotFoundException("tenant not found!"));

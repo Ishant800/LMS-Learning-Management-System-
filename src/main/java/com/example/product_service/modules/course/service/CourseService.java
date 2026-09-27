@@ -61,4 +61,9 @@ public class CourseService {
     public List<Course> getAllCourse(){
         return courseRepo.findAll();
     }
+
+    public Course getCourseById(Long id){
+        return courseRepo.findById(id)
+                .orElseThrow(()-> new UserNotFoundException("Course not found with id: " + id));
+    }
 }

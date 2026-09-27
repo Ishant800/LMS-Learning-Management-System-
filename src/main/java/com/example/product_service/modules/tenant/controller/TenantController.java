@@ -29,11 +29,14 @@ public class TenantController {
         return ResponseEntity.ok(service.getTenant());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Tenant> getTenantById(@PathVariable String id){
+        return ResponseEntity.ok(service.getTenantById(id));
+    }
+
     @DeleteMapping
     public ResponseEntity<String> deleteTenant(@RequestParam String id){
        return ResponseEntity.ok(service.tenantDelete(id));
     }
-
-
 
 }

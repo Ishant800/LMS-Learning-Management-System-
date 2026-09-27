@@ -69,6 +69,12 @@ public class TenantService {
     public List<Tenant> getTenant(){
         return tenantRepository.findAll();
     }
+
+    public Tenant getTenantById(String id){
+        return tenantRepository.findById(id)
+                .orElseThrow(()-> new UserNotFoundException("Tenant not found with id: " + id));
+    }
+
     public String tenantDelete(String id){
         if(tenantRepository.existsById(id)){
             tenantRepository.deleteById(id);
@@ -78,4 +84,3 @@ public class TenantService {
     }
 
 }
-
