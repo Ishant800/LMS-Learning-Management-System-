@@ -26,9 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         //1.check if logging email belongs to tenant admin
-        Optional<Tenant> tenantOpt = tenantRepository.findByAdminEmail(email);
-        if(tenantOpt.isPresent()){
-            Tenant tenant = tenantOpt.get();
+        Tenant tenant = tenantRepository.findByAdminEmail(email);
+        if(tenant != null){
             return org.springframework.security.core.userdetails.User
                     .withUsername(tenant.getAdminEmail())
                     .password(tenant.getAdminPassword())

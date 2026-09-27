@@ -4,7 +4,6 @@ package com.example.product_service.modules.product.controller;
 import com.example.product_service.modules.product.dto.ProductRequestDto;
 import com.example.product_service.modules.product.dto.ProductResponseDto;
 import com.example.product_service.modules.product.service.ProductService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ public class ProductController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ProductResponseDto> createProduct(@Valid @RequestBody ProductRequestDto requestDto){
+    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto requestDto){
         ProductResponseDto response = productService.createProduct(requestDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -31,7 +30,7 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductResponseDto> updateProduct(
             @PathVariable Long id, 
-            @Valid @RequestBody ProductRequestDto requestDto){
+            @RequestBody ProductRequestDto requestDto){
         ProductResponseDto response = productService.updateProduct(id, requestDto);
         return ResponseEntity.ok(response);
     }

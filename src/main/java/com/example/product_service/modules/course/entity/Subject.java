@@ -37,4 +37,8 @@ public class Subject {
 
     private String subjectName;
     private String subjectCode;
+    
+    public String getName(){
+        return subjectName;
+    }
 }

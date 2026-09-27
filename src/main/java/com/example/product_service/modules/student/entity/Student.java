@@ -56,5 +56,8 @@ public class Student {
     public void onCreate(){
          admissionDate = LocalDateTime.now();
     }
+    
+    public String getName(){
+        return user != null ? user.getFullName() : null;
+    }
 }
-

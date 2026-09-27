@@ -1,5 +1,8 @@
 package com.example.product_service.common.utility;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class AuthContext {
     private static final ThreadLocal<String> tenantHolder = new ThreadLocal<>();
     private static final ThreadLocal<Long> userHolder = new ThreadLocal<>();
@@ -14,6 +17,11 @@ public class AuthContext {
     public static String getTenantId(){
         return tenantHolder.get();
     }
+    
+    public String getCurrentTenantId(){
+        return getTenantId();
+    }
+    
     public static Long getUserId(){
         return userHolder.get();
     }

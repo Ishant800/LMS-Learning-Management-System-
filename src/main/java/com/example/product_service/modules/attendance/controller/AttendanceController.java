@@ -3,7 +3,7 @@ package com.example.product_service.modules.attendance.controller;
 import com.example.product_service.modules.attendance.dto.AttendanceRequestDto;
 import com.example.product_service.modules.attendance.dto.AttendanceResponseDto;
 import com.example.product_service.modules.attendance.service.AttendanceService;
-import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/attendance")
+@RequestMapping("/attendance")
 @RequiredArgsConstructor
 public class AttendanceController {
 
@@ -23,7 +23,7 @@ public class AttendanceController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
-    public ResponseEntity<AttendanceResponseDto> markAttendance(@Valid @RequestBody AttendanceRequestDto requestDto) {
+    public ResponseEntity<AttendanceResponseDto> markAttendance( @RequestBody AttendanceRequestDto requestDto) {
         AttendanceResponseDto response = attendanceService.markAttendance(requestDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -32,7 +32,7 @@ public class AttendanceController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     public ResponseEntity<AttendanceResponseDto> updateAttendance(
             @PathVariable Long attendanceId,
-            @Valid @RequestBody AttendanceRequestDto requestDto) {
+             @RequestBody AttendanceRequestDto requestDto) {
         AttendanceResponseDto response = attendanceService.updateAttendance(attendanceId, requestDto);
         return ResponseEntity.ok(response);
     }

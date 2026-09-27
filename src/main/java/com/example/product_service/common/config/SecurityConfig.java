@@ -31,11 +31,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         //public
                         .requestMatchers(
-                                "/auth/login",
-                                "/auth/login",
+                                "/auth/**",
                                 "/auth/createStaff",
-                                "/tenant/create",
-                                "/product/**"
+                                "/product/**",
+                                "/tenant/**",
+                                "/attendance/**",
+                                "/batch/**",
+                                "/course/**",
+                                "/student/**",
+                                "/teacher/**"
+
 
 
                         ).permitAll()
