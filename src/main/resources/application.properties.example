@@ -1,0 +1,46 @@
+spring.application.name=product-service
+
+server.port=8082
+
+# Database Configuration
+# Option 1: Cloud Database (Aiven MySQL)
+#spring.datasource.url=jdbc:mysql://your-cloud-host:port/defaultdb?sslMode=REQUIRED
+#spring.datasource.username=your-username
+#spring.datasource.password=your-password
+
+# Option 2: Local Database
+spring.datasource.url=jdbc:mysql://localhost:3306/your_database_name
+spring.datasource.username=your_db_username
+spring.datasource.password=your_db_password
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# Hibernate Configuration
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+# Email Configuration (Gmail SMTP)
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=your-email@gmail.com
+spring.mail.password=your-app-specific-password
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+# RabbitMQ Configuration
+spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=guest
+spring.rabbitmq.password=guest
+
+# Custom properties for RabbitMQ infrastructure mapping
+app.queue.name=demo-queue
+app.exchange.name=demo-exchange
+app.routing.key=demo-routing-key
+
+# Redis Configuration
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+
+# JWT Secret Key (Generate a strong secret key for production)
+jwt.secret=your-256-bit-secret-key-here-replace-with-strong-random-value
